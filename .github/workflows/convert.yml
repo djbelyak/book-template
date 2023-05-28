@@ -5,21 +5,14 @@ env:
 jobs:
   convert:
     runs-on: ubuntu-latest
+    container: pandoc/extra:3.1.1.0
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Build EPUB
-        uses: addnab/docker-run-action@v3
-        with:
-          image: pandoc/latex:latest
-          options: -v ${{ github.workspace }}:/data
-          run: -o ${{ env.book_name }}.epub -s $(find . -maxdepth 1 -mindepth 1 -name \*.md -a -not -name README.md | sort)
+        run: -o ${{ env.book_name }}.epub -s $(find . -maxdepth 1 -mindepth 1 -name \*.md -a -not -name README.md | sort)
       - name: Build DOCX
-        uses: addnab/docker-run-action@v3
-        with:
-          image: pandoc/latex:latest
-          options: -v ${{ github.workspace }}:/data
-          run: --toc -o ${{ env.book_name }}.docx -s $(find . -maxdepth 1 -mindepth 1 -name \*.md -a -not -name README.md | sort)
+        run: --toc -o ${{ env.book_name }}.docx -s $(find . -maxdepth 1 -mindepth 1 -name \*.md -a -not -name README.md | sort)
       - name: Upload EPUB
         uses: actions/upload-artifact@v3
         with:
