@@ -10,9 +10,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Build EPUB
-        run: -o ${{ env.book_name }}.epub -s $(find . -maxdepth 1 -mindepth 1 -name \*.md -a -not -name README.md | sort)
+        run: pandoc -o ${{ env.book_name }}.epub -s $(find . -maxdepth 1 -mindepth 1 -name \*.md -a -not -name README.md | sort)
       - name: Build DOCX
-        run: --toc -o ${{ env.book_name }}.docx -s $(find . -maxdepth 1 -mindepth 1 -name \*.md -a -not -name README.md | sort)
+        run: pandoc --toc -o ${{ env.book_name }}.docx -s $(find . -maxdepth 1 -mindepth 1 -name \*.md -a -not -name README.md | sort)
       - name: Upload EPUB
         uses: actions/upload-artifact@v3
         with:
